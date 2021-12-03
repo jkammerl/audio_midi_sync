@@ -1,0 +1,18 @@
+[submodule "third_party/libsamplerate"]
+	path = third_party/libsamplerate
+	url = https://github.com/libsndfile/libsamplerate.git
+[submodule "third_party/portaudio"]
+	path = third_party/portaudio
+	url = https://github.com/PortAudio/portaudio.git
+[submodule "third_party/kissfft"]
+	path = third_party/kissfft
+	url = https://github.com/mborgerding/kissfft.git
+[submodule "third_party/libsoundio"]
+	path = third_party/libsoundio
+	url = https://github.com/andrewrk/libsoundio.git
+[submodule "third_party/--force"]
+	path = third_party/--force
+	url = https://github.com/jkammerl/BTrack.git
+[submodule "third_party/BTrack"]
+	path = third_party/BTrack
+	url = https://github.com/jkammerl/BTrack.git
