@@ -1,8 +1,8 @@
 message("dwdinc_dirs =") 
 
 add_subdirectory(kissfft)
-#add_subdirectory(libsoundio)
 add_subdirectory(portaudio)
+add_subdirectory(portmidi)
 
 include_directories(BTrack/src)
 add_library (BTrack STATIC

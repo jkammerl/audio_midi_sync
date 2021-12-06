@@ -7,6 +7,8 @@
 #include <mutex>
 
 #include "BTrack.h"
+#include "bpm_pd.h"
+#include "midi.h"
 
 class BeatTracker {
  public:
@@ -21,6 +23,7 @@ class BeatTracker {
 
  private:
   double GetAudioSeconds() const;
+  bool ProcessMidi(double phase);
 
   std::mutex mutex_;
 
@@ -28,9 +31,16 @@ class BeatTracker {
   std::unique_ptr<OnsetDetectionFunction> onset_detection_;
   std::vector<double> bt_frame_;
 
+  BpmPd bpm_pd_;
+  Midi midi_;
+
   double last_bpm_ = 0.0;
   uint64_t audio_time_smp_ = 0;
   bool init_ = false;
+
+  double last_phase_ = 0.0;
+  int midi_clock_counter_ = 0;
+  bool midi_start_pending_ = true;
 };
 
 #endif
