@@ -8,6 +8,8 @@ include_directories(BTrack/src)
 add_library (BTrack STATIC
   BTrack/src/BTrack.cpp
   BTrack/src/BTrack.h
+  BTrack/src/SpectralAnalysis.cpp
+  BTrack/src/SpectralAnalysis.h
   BTrack/src/CircularBuffer.h
   BTrack/src/OnsetDetectionFunction.cpp
   BTrack/src/OnsetDetectionFunction.h

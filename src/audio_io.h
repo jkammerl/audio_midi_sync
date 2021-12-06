@@ -2,9 +2,11 @@
 #define __AUDIO_IO_
 
 #include <memory>
+#include <mutex>
 
 #include "beat_tracker.h"
 #include "portaudio.h"
+
 
 class AudioIo {
  public:
@@ -35,6 +37,7 @@ class AudioIo {
 
   std::unique_ptr<BeatTracker> beat_tracker_;
   PaStream *stream;
+  std::mutex mutex_;
 };
 
 #endif  // __AUDIO_IO_

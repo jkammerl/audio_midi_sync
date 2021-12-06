@@ -3,6 +3,8 @@
 
 #include <array>
 #include <cstddef>
+#include <memory>
+#include <mutex>
 
 #include "BTrack.h"
 
@@ -20,11 +22,15 @@ class BeatTracker {
  private:
   double GetAudioSeconds() const;
 
-  BTrack btrack_;
+  std::mutex mutex_;
+
+  std::unique_ptr<BTrack> btrack_;
+  std::unique_ptr<OnsetDetectionFunction> onset_detection_;
   std::vector<double> bt_frame_;
 
   double last_bpm_ = 0.0;
   uint64_t audio_time_smp_ = 0;
+  bool init_ = false;
 };
 
 #endif

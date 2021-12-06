@@ -84,6 +84,7 @@ int AudioIo::PaCallbackMethod(const void *inputBuffer, void *outputBuffer,
                               unsigned long framesPerBuffer,
                               const PaStreamCallbackTimeInfo *timeInfo,
                               PaStreamCallbackFlags statusFlags) {
+  std::lock_guard<std::mutex> lck (mutex_);
   (void)statusFlags;
 
   const bool current_beat = beat_tracker_->ProcessFloatAudio(
@@ -102,8 +103,8 @@ int AudioIo::PaCallbackMethod(const void *inputBuffer, void *outputBuffer,
     for (i = 0; i < framesPerBuffer; i++) {
       const float rand_float =
           static_cast<float>(rand()) / static_cast<float>(RAND_MAX) - 0.5f;
-      *out++ = rand_float;  // AudioIo[left_phase];  /* left */
-      *out++ = rand_float;  // AudioIo[right_phase];  /* right */
+      *out++ = rand_float;  
+      *out++ = rand_float;   
     }
   }
   return paContinue;
