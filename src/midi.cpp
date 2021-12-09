@@ -36,7 +36,7 @@ void Midi::Init() {
     printf("\n");
   }
 
-  midi_out_id_ = Pm_GetDefaultOutputDeviceID();
+  midi_out_id_ = 2; //Pm_GetDefaultOutputDeviceID();
   const PmDeviceInfo* midi_out_info = Pm_GetDeviceInfo(midi_out_id_);
   if (midi_out_info == NULL) {
     printf("Could not open default output device (%d).", midi_out_id_);

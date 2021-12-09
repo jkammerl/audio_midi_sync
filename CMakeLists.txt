@@ -73,7 +73,7 @@ SET (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/Modules
 
 add_subdirectory(third_party)
 
-add_executable (AudioMidiClockSync src/main.cpp src/midi.cpp src/bpm_pd.cpp src/beat_tracker.cpp src/audio_io.cpp)
+add_executable (AudioMidiClockSync src/main.cpp src/midi.cpp  src/gpio.cpp src/bpm_pd.cpp src/beat_tracker.cpp src/audio_io.cpp)
 include_directories("src", ${PortAudio_INCLUDE_DIRS})
 include_directories("src", ${PortMidi_INCLUDE_DIRS})
 

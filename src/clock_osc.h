@@ -3,7 +3,7 @@
 
 #include <cmath> 
 
-constexpr const double kLatencyCompensationMs = -200;
+constexpr const double kLatencyCompensationMs = -20;
 
 class ClockOsc {
     public:

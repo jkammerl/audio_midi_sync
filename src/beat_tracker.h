@@ -9,6 +9,7 @@
 #include "BTrack.h"
 #include "bpm_pd.h"
 #include "midi.h"
+#include "gpio.h"
 
 class BeatTracker {
  public:
@@ -33,6 +34,7 @@ class BeatTracker {
 
   BpmPd bpm_pd_;
   Midi midi_;
+  Gpio gpio_;
 
   double last_bpm_ = 0.0;
   uint64_t audio_time_smp_ = 0;

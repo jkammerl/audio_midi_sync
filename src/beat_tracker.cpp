@@ -20,12 +20,13 @@ void BeatTracker::Init() {
   btrack_->setTempo(120);
   btrack_->doNotFixTempo();
   midi_.Init();
+  gpio_.Init();
   init_ = true;
 }
 
 bool BeatTracker::ProcessFloatAudio(const float* data, const size_t channels,
                                     const size_t frames) {
-  std::lock_guard<std::mutex> lck(mutex_);
+  std::lock_guard<std::mutex> lck(mutex_);s
   if (!init_) return false;
 
   CHECK_EQ(channels, kStereoChannels);
@@ -68,6 +69,8 @@ bool BeatTracker::ProcessMidi(double phase) {
   const int current_midi_clock_count = phase * 24.0 + 1;
 
   const bool phase_click = phase < last_phase_;
+  gpio_.SetQuarterPulseLed(phase_click);
+
   if (phase_click) {
     printf("BOOM\n");
     if (midi_start_pending_) {
