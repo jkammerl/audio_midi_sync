@@ -26,8 +26,10 @@ void BeatTracker::Init() {
 
 bool BeatTracker::ProcessFloatAudio(const float* data, const size_t channels,
                                     const size_t frames) {
-  std::lock_guard<std::mutex> lck(mutex_);s
+  std::lock_guard<std::mutex> lck(mutex_);
   if (!init_) return false;
+
+  ProcessStartStopButton();
 
   CHECK_EQ(channels, kStereoChannels);
   CHECK_EQ(frames, kBtrackBufferSize);
@@ -65,6 +67,20 @@ double BeatTracker::GetAudioSeconds() const {
   return static_cast<double>(audio_time_smp_) / 44100.0;
 }
 
+void BeatTracker::ProcessStartStopButton() {
+  if (gpio_.StartStopButtonPressed()) {
+    switch (clock_state_) {
+      case ClockState::kOff:
+        clock_state_ = ClockState::kStartPending;
+        break;
+      case ClockState::kStarted:
+        clock_state_ = ClockState::kStopPending;
+      default:
+        break;
+    }
+  }
+}
+
 bool BeatTracker::ProcessMidi(double phase) {
   const int current_midi_clock_count = phase * 24.0 + 1;
 
@@ -72,20 +88,28 @@ bool BeatTracker::ProcessMidi(double phase) {
   gpio_.SetQuarterPulseLed(phase_click);
 
   if (phase_click) {
-    printf("BOOM\n");
-    if (midi_start_pending_) {
+    if (clock_state_ == ClockState::kStartPending) {
+      clock_state_ = ClockState::kStarted;
       midi_.SendStart();
-      midi_start_pending_ = false;
-    } else {
-      while (midi_clock_counter_ < 24) {
-        midi_.SendClock();
-        ++midi_clock_counter_;
-      }
       midi_clock_counter_ = 0;
     }
+    if (clock_state_ == ClockState::kStopPending) {
+      clock_state_ = ClockState::kOff;
+      midi_.SendStop();
+    }
+    if (clock_state_ == ClockState::kStarted) {
+      printf("BOOM\n");
+    }
+
+    while (midi_clock_counter_ < 24 && clock_state_ == ClockState::kStarted) {
+      midi_.SendClock();
+      ++midi_clock_counter_;
+    }
+    midi_clock_counter_ = 0;
   }
 
-  while (midi_clock_counter_ < current_midi_clock_count) {
+  while (midi_clock_counter_ < current_midi_clock_count &&
+         clock_state_ == ClockState::kStarted) {
     midi_.SendClock();
     ++midi_clock_counter_;
   }

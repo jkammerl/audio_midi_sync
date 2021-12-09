@@ -6,6 +6,7 @@ class Gpio {
     void Init();
 
     void SetQuarterPulseLed(bool active);
+    bool StartStopButtonPressed();
 
 };
 

@@ -26,6 +26,8 @@ class BeatTracker {
   double GetAudioSeconds() const;
   bool ProcessMidi(double phase);
 
+  void ProcessStartStopButton();
+
   std::mutex mutex_;
 
   std::unique_ptr<BTrack> btrack_;
@@ -42,7 +44,15 @@ class BeatTracker {
 
   double last_phase_ = 0.0;
   int midi_clock_counter_ = 0;
-  bool midi_start_pending_ = true;
+
+  enum class ClockState{ 
+    kOff,
+    kStartPending,
+    kStarted,
+    kStopPending
+  };
+  ClockState clock_state_ = ClockState::kOff;
+
 };
 
 #endif
