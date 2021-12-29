@@ -7,7 +7,7 @@
 #define SERIAL_SPEED 115200
 
 bool Serial::OpenSerialDevice(const char* device) {
-  const bool success = serial.openDevice(device, SERIAL_SPEED) != 1;
+  const bool success = serial.openDevice(device, SERIAL_SPEED) == 1;
   if (!success) {
     printf("Opening %s failed\n", device);
   }
@@ -19,7 +19,7 @@ void Serial::Init() {
       !OpenSerialDevice(SERIAL_PORT2)) {
     printf("Could not open serial device\n");
     return;
-  }
+  } 
 }
 
 void Serial::SendQuarterPulse() {

@@ -62,10 +62,10 @@ bool BeatTracker::ProcessFloatAudio(const float* data, const size_t channels,
   if (serial_command != 0) {
     if (serial_command == 'V') {
       printf("Variable tempo detection: %lf\n", bpm);
-      btrack_->doNotFixTempo();
+      //btrack_->doNotFixTempo();
     } else if (serial_command == 'F') {
       printf("Fixed tempo detection: %lf\n", bpm);
-      btrack_->fixTempo(bpm);
+      //btrack_->fixTempo(bpm);
     }
   }
 
