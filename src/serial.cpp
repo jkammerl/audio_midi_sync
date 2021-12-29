@@ -9,7 +9,10 @@ void Serial::Init() {
   }
 }
 
-void Serial::SendQuarterPulse() { serial.writeChar('X'); }
+void Serial::SendQuarterPulse() { 
+    serial.writeChar('X'); 
+    printf("X\n");
+}
 
 char Serial::ReceiveCommand() {
   char command;
