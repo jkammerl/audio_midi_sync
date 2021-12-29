@@ -11,6 +11,7 @@ class Serial {
   char ReceiveCommand();
 
  private:
+  bool OpenSerialDevice(const char* device);
   serialib serial;
 };
 
