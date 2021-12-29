@@ -17,3 +17,9 @@ add_library (BTrack STATIC
 target_compile_definitions(BTrack PRIVATE USE_KISS_FFT=1)
 target_include_directories(BTrack PUBLIC BTrack/src/)
 target_link_libraries (BTrack LINK_PUBLIC kissfft)
+
+include_directories(seriallib/lib)
+add_library (serialib STATIC
+   serialib/lib/serialib.cpp
+)
+target_include_directories(serialib PUBLIC serialib/lib/)

@@ -9,7 +9,7 @@
 #include "BTrack.h"
 #include "bpm_pd.h"
 #include "midi.h"
-#include "gpio.h"
+#include "serial.h"
 
 class BeatTracker {
  public:
@@ -26,8 +26,6 @@ class BeatTracker {
   double GetAudioSeconds() const;
   bool ProcessMidi(double phase);
 
-  void ProcessStartStopButton();
-
   std::mutex mutex_;
 
   std::unique_ptr<BTrack> btrack_;
@@ -36,7 +34,7 @@ class BeatTracker {
 
   BpmPd bpm_pd_;
   Midi midi_;
-  Gpio gpio_;
+  Serial serial_;
 
   double last_bpm_ = 0.0;
   uint64_t audio_time_smp_ = 0;
@@ -44,15 +42,6 @@ class BeatTracker {
 
   double last_phase_ = 0.0;
   int midi_clock_counter_ = 0;
-
-  enum class ClockState{ 
-    kOff,
-    kStartPending,
-    kStarted,
-    kStopPending
-  };
-  ClockState clock_state_ = ClockState::kOff;
-
 };
 
 #endif
